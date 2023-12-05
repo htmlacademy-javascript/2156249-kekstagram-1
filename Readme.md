@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Daria Egarmina](https://up.htmlacademy.ru/javascript-individual/1/user/2156249).
-* Наставник: `Неизвестно`.
+* Наставник: `Мария Филиппова`.
 
 ---
 
