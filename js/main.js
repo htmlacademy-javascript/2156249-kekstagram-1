@@ -41,8 +41,9 @@ const getRandomInteger = (a, b) => {
 
 const getRandomInfiniteNumber = () => {
   const numReserve = [];
+  let randomNumber;
   while (numReserve.length < 12) {
-    var randomNumber = Math.ceil(Math.random() * 1000);
+    randomNumber = Math.ceil(Math.random() * 1000);
     let found = false;
     for (let i = 0; i < numReserve.length; i++) {
       if (numReserve[i] === randomNumber){
