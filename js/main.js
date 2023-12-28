@@ -39,48 +39,30 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const getRandomInfiniteNumber = () => {
-  const numReserve = [];
-  let randomNumber;
-  while (numReserve.length < 12) {
-    randomNumber = Math.ceil(Math.random() * 1000);
-    let found = false;
-    for (let i = 0; i < numReserve.length; i++) {
-      if (numReserve[i] === randomNumber){
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      numReserve[numReserve.length] = randomNumber;
-    }
-  }
-  return randomNumber;
-};
+const getRandomArrayElement = (items) => items[getRandomInteger(0, items.length - 1)];
 
-const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
-
-const messageNumber = getRandomInteger(1, 2);
-
-//Основная функция
-
-const createPhoto = () => {
-  const createComment = () => ({
-    id: getRandomInfiniteNumber(),
-    avatar: `img/avatar-${ getRandomInteger(1, 6) }.svg`,
-    message: Array.from({length: messageNumber}, () => getRandomArrayElement(MESSAGES)).join(' '),
-    name: getRandomArrayElement(NAMES)
-  });
+const createComment = () => {
+  const messageAmount = getRandomInteger(1, 2);
 
   return {
-    id: getRandomInteger(1, 25),
-    url: `photos/${ getRandomInteger(1, 25) }.jpg`,
-    description: getRandomArrayElement(DESCRIPTIONS),
-    likes: getRandomInteger(15, 200),
-    comments: createComment()
+    id: Math.ceil(Math.random() * 1000),
+    avatar: `img/avatar-${ getRandomInteger(1, 6) }.svg`,
+    message: Array.from({length: messageAmount}, () => getRandomArrayElement(MESSAGES)).join(' '),
+    name: getRandomArrayElement(NAMES)
   };
 };
 
+//Основная функция
+
+const createPhoto = () => ({
+  id: getRandomInteger(1, 25),
+  url: `photos/${ getRandomInteger(1, 25) }.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(15, 200),
+  comments: createComment()
+});
+
 const severalPhotos = Array.from({length: 25}, createPhoto);
 
+// eslint-disable-next-line no-console
 console.log(severalPhotos);
