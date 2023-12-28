@@ -66,14 +66,14 @@ const messageNumber = getRandomInteger(1, 2);
 const createPhoto = () => {
   const createComment = () => ({
     id: getRandomInfiniteNumber(),
-    avatar: 'img/avatar-' + '' + getRandomInteger(1, 6) + '.svg',
+    avatar: `img/avatar-${ getRandomInteger(1, 6) }.svg`,
     message: Array.from({length: messageNumber}, () => getRandomArrayElement(MESSAGES)).join(' '),
     name: getRandomArrayElement(NAMES)
   });
 
   return {
     id: getRandomInteger(1, 25),
-    url: 'photos/' + '' + getRandomInteger(1, 25) + '.jpg',
+    url: `photos/${ getRandomInteger(1, 25) }.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(15, 200),
     comments: createComment()
