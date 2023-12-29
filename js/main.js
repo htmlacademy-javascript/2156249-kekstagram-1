@@ -54,15 +54,16 @@ const createComment = () => {
 
 //Основная функция
 
-const createPhoto = () => ({
-  id: getRandomInteger(1, 25),
+const createPhoto = (id) => ({
+  id: id,
   url: `photos/${ getRandomInteger(1, 25) }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(15, 200),
   comments: createComment()
 });
 
-const severalPhotos = Array.from({length: 25}, createPhoto);
+const PHOTOS_AMOUNT = 25;
+const photos = Array.from({length: PHOTOS_AMOUNT}, (item, index) => createPhoto(index + 1));
 
 // eslint-disable-next-line no-console
-console.log(severalPhotos);
+console.log(photos);
