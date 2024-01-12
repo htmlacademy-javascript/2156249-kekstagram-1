@@ -8,6 +8,8 @@ const DESCRIPTIONS = [
   'Ты красотка :)'
 ];
 
+const PHOTOS_AMOUNT = 25;
+
 // Для комментария
 
 const MESSAGES = [
@@ -56,13 +58,12 @@ const createComment = () => {
 
 const createPhoto = (id) => ({
   id: id,
-  url: `photos/${ getRandomInteger(1, 25) }.jpg`,
+  url: `photos/${ id }.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(15, 200),
   comments: createComment()
 });
 
-const PHOTOS_AMOUNT = 25;
 const photos = Array.from({length: PHOTOS_AMOUNT}, (item, index) => createPhoto(index + 1));
 
 // eslint-disable-next-line no-console
