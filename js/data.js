@@ -57,6 +57,6 @@ const createPhoto = (id) => ({
   comments: createComment()
 });
 
-const createPhotos = Array.from({length: PHOTOS_AMOUNT}, (item, index) => createPhoto(index + 1));
+const createPhotos = () => Array.from({length: PHOTOS_AMOUNT}, (item, index) => createPhoto(index + 1));
 
 export {createPhotos};
