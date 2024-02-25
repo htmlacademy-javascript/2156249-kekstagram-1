@@ -55,6 +55,7 @@ const createPhoto = (id) => ({
   description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(15, 200),
   comments: Array.from({length: getRandomInteger(1, 15)}, createComment),
+  dataset: `picture${ id }`,
 });
 
 const createPhotos = () => Array.from({length: PHOTOS_AMOUNT}, (item, index) => createPhoto(index + 1));
