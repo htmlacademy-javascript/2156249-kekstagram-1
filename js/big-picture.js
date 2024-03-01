@@ -1,87 +1,89 @@
+import { isEscapeKey } from './util.js';
+
 const picturesContainer = document.querySelector('.pictures');
+
+// для большой картинки
 const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureImg = bigPictureElement.querySelector('img');
+const likesCount = bigPictureElement.querySelector('.likes-count');
+const commentsCount = bigPictureElement.querySelector('.comments-count');
+const commentsContainer = bigPictureElement.querySelector('.social__comments');
+const description = bigPictureElement.querySelector('.social__caption');
+const commentCount = bigPictureElement.querySelector('.social__comment-count');
+const commentsLoader = bigPictureElement.querySelector('.comments-loader');
+
+// для комментариев
+const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+const fragment = document.createDocumentFragment();
+
+// для закрытия картинки
 const closeElement = document.querySelector('.big-picture__cancel');
 
-const bigPictureHandler = function (array) {
-  picturesContainer.addEventListener('click', function (evt) {
-    // открываю большую картинку
-    bigPictureElement.classList.remove('hidden');
+// создает комментарий
+const createCommentElement = (commentsArrayElement) => {
+  const commentElement = commentTemplate.cloneNode(true);
 
-    // ищу ссылку, по которой кликнула, и ее датасет
-    const targetLink = evt.target.closest('a');
-    const targetLinkId = targetLink.getAttribute('data-picture-number');
+  commentElement.querySelector('.social__picture').src = commentsArrayElement.avatar;
+  commentElement.querySelector('.social__picture').alt = commentsArrayElement.name;
+  commentElement.querySelector('.social__text').textContent = commentsArrayElement.message;
 
-    //ищу в данных объект с таким же датасетом
-    const requiredThumbnail = array.find(arrayElement => arrayElement.dataset === targetLinkId);
+  return commentElement;
+};
 
-    //добавляю большой картинке необходимые данные из найденного объекта
-    const bigPictureImg = bigPictureElement.querySelector('img');
-    bigPictureImg.src = requiredThumbnail.url;
+// создает большую картинку
+const createBigPicture = (requiredThumbnail) => {
+  bigPictureImg.src = requiredThumbnail.url;
+  description.textContent = requiredThumbnail.description;
+  likesCount.textContent = requiredThumbnail.likes;
+  commentsCount.textContent = requiredThumbnail.comments.length;
 
-    const likesCount = bigPictureElement.querySelector('.likes-count');
-    likesCount.textContent = requiredThumbnail.likes;
+  commentsContainer.innerHTML = '';
+  const commentsArray = requiredThumbnail.comments;
+  commentsArray.forEach((commentsArrayElement) => {
+    const commentElement = createCommentElement(commentsArrayElement);
+    fragment.append(commentElement);
+  });
+  commentsContainer.append(fragment);
+};
 
-    const commentsCount = bigPictureElement.querySelector('.comments-count');
-    commentsCount.textContent = requiredThumbnail.comments.length;
+// открывает и закрывает большую картинку
+const openBigPicture = (requiredThumbnail, array) => {
+  bigPictureElement.classList.remove('hidden');
 
-    //отдельно создаю комментарии
-    const commentsContainer = bigPictureElement.querySelector('.social__comments');
-    commentsContainer.innerHTML='';
+  createBigPicture(requiredThumbnail, array);
 
-    const commentsArray = requiredThumbnail.comments;
+  document.body.classList.add('modal-open');
 
-    const fragment = document.createDocumentFragment();
-
-    commentsArray.forEach((commentsArrayElement) => {
-      const comment = document.createElement('li');
-      comment.classList.add('social__comment');
-
-      const commentImg = document.createElement('img');
-      commentImg.classList.add('social__picture');
-      commentImg.src = commentsArrayElement.avatar;
-      commentImg.alt = commentsArrayElement.name;
-      commentImg.width = '35';
-      commentImg.height = '35';
-      comment.append(commentImg);
-
-      const commentText = document.createElement('p');
-      commentText.classList.add('social__text');
-      commentText.textContent = commentsArrayElement.message;
-      comment.append(commentText);
-
-      fragment.append(comment);
-    })
-
-    commentsContainer.append(fragment);
-
-    //добавляю подпись под фотографией
-    const description = bigPictureElement.querySelector('.social__caption');
-    description.textContent = requiredThumbnail.description;
-
-    //прячу блоки счётчика комментариев и загрузки новых комментариев
-    const commentCount = bigPictureElement.querySelector('.social__comment-count');
-    const commentsLoader = bigPictureElement.querySelector('.comments-loader');
-    commentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-
-    //фиксирую контейнер с фотографиями при прокрутке
-    document.body.classList.add('modal-open');
-
-    //закрываю большую картинку нажатием на эскейп
-    document.addEventListener('keydown', (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        bigPictureElement.classList.add('hidden');
-        document.body.classList.remove('modal-open');
-      }
-    });
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      bigPictureElement.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+    }
   });
 
-  //закрываю большую картинку кликом на крестик
-  closeElement.addEventListener('click', () => {
-    bigPictureElement.classList.add('hidden');
-    document.body.classList.remove('modal-open');
+  commentCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+};
+
+//закрывает большую картинку кликом на крестик
+closeElement.addEventListener('click', () => {
+  bigPictureElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+});
+
+const bigPictureHandler = (array) => {
+  picturesContainer.addEventListener('click', (evt) => {
+    // ищет ссылку, по которой произошел клик, и ее датасет
+    const targetLink = evt.target.closest('.picture');
+    const targetLinkId = targetLink.getAttribute('data-picture-id');
+
+    //ищет в данных объект с таким же датасетом
+    const requiredThumbnail = array.find((arrayElement) => arrayElement.id === +targetLinkId);
+
+    // открывает и закрывает большую картинку
+    openBigPicture(requiredThumbnail, array);
   });
 };
 
-export { bigPictureHandler }
+export { bigPictureHandler };

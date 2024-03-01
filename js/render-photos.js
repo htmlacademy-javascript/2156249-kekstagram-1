@@ -4,7 +4,7 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const createPhotoElement = (photo) => {
   const photoElement = pictureTemplate.cloneNode(true);
 
-  photoElement.dataset.pictureNumber = photo.dataset;
+  photoElement.dataset.pictureId = photo.id;
 
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__img').alt = photo.description;
