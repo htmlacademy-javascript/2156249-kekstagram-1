@@ -1,9 +1,9 @@
 import {createPhotos} from './data.js';
 import {renderPhotos} from './render-photos.js';
-import {bigPictureHandler} from './big-picture.js';
+import { setGalleryListener } from './gallery.js';
 
 const userPhotos = createPhotos();
 
 renderPhotos(userPhotos);
 
-bigPictureHandler(userPhotos);
+setGalleryListener(userPhotos);
