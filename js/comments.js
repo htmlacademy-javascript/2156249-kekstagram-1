@@ -1,6 +1,5 @@
 const FIRST_COMMENTS_COUNT = 5;
 const COMMENTS_STEP = 5;
-let moreCommentsCount = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
 const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
@@ -15,7 +14,7 @@ const addDeleteLoaderElement = (comments) => {
   } else {
     commentsLoaderElement.classList.remove('hidden');
   }
-}
+};
 
 // создание одного комментария
 const getCommentElement = (comment) => {
@@ -36,7 +35,7 @@ const renderFirstComments = (comments) => {
   for (let i = 0; i < FIRST_COMMENTS_COUNT; i++) {
     const commentElement = getCommentElement(comments[i]); // когда в comments меньше 5 элементов - не работает :(
     fragment.append(commentElement);
-  };
+  }
 
   commentsContainerElement.append(fragment);
 };
@@ -50,12 +49,12 @@ const loadMoreComments = (comments) => {
     for (let i = 0; i < moreCommentsCount; i++) {
       const commentElement = getCommentElement(comments[i]); // когда в comments меньше 5 элементов - не работает :(
       fragment.append(commentElement);
-    };
+    }
 
     commentsContainerElement.innerHTML = '';
     commentsContainerElement.append(fragment);
   });
-}
+};
 
 
 // очистка контейнера с комментарими
