@@ -1,6 +1,21 @@
+const FIRST_COMMENTS_COUNT = 5;
+const COMMENTS_STEP = 5;
+let moreCommentsCount = 5;
+
 const bigPictureElement = document.querySelector('.big-picture');
 const commentsContainerElement = bigPictureElement.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
+
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
+
+// добавление и удаление кнопки "загрузить еще"
+const addDeleteLoaderElement = (comments) => {
+  if (comments.length <= FIRST_COMMENTS_COUNT) {
+    commentsLoaderElement.classList.add('hidden');
+  } else {
+    commentsLoaderElement.classList.remove('hidden');
+  }
+}
 
 // создание одного комментария
 const getCommentElement = (comment) => {
@@ -15,20 +30,37 @@ const getCommentElement = (comment) => {
 };
 
 // рендер всех комментариев
-const renderComments = (comments) => {
+const renderFirstComments = (comments) => {
   const fragment = document.createDocumentFragment();
 
-  comments.forEach((comment) => {
-    const commentElement = getCommentElement(comment);
+  for (let i = 0; i < FIRST_COMMENTS_COUNT; i++) {
+    const commentElement = getCommentElement(comments[i]); // когда в comments меньше 5 элементов - не работает :(
     fragment.append(commentElement);
-  });
+  };
 
   commentsContainerElement.append(fragment);
 };
+
+const loadMoreComments = (comments) => {
+  let moreCommentsCount = 5;
+  commentsLoaderElement.addEventListener('click', () => {
+    moreCommentsCount += COMMENTS_STEP;
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < moreCommentsCount; i++) {
+      const commentElement = getCommentElement(comments[i]); // когда в comments меньше 5 элементов - не работает :(
+      fragment.append(commentElement);
+    };
+
+    commentsContainerElement.innerHTML = '';
+    commentsContainerElement.append(fragment);
+  });
+}
+
 
 // очистка контейнера с комментарими
 const removeComments = () => {
   commentsContainerElement.innerHTML = '';
 };
 
-export {renderComments, removeComments};
+export { renderFirstComments, removeComments, addDeleteLoaderElement, loadMoreComments };
