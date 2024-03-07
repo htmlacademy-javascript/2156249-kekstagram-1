@@ -12,7 +12,7 @@ const commentCountElement = bigPictureElement.querySelector('.social__comment-co
 
 // добавление и удаление кнопки "загрузить еще"
 const checkCommentsCount = () => {
-  if (photoComments.length <= COMMENTS_STEP) {
+  if (photoComments.length <= shownCommentCount) {
     commentsLoaderElement.classList.add('hidden');
   } else {
     commentsLoaderElement.classList.remove('hidden');
