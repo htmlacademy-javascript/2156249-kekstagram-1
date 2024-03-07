@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { renderFirstComments, removeComments, addDeleteLoaderElement, loadMoreComments } from './comments.js';
+import { renderComments, removeComments } from './comments.js';
 
 // для большой картинки
 const bigPictureElement = document.querySelector('.big-picture');
@@ -8,7 +8,7 @@ const likesCountElement = bigPictureElement.querySelector('.likes-count');
 const commentsCountElement = bigPictureElement.querySelector('.comments-count');
 const descriptionElement = bigPictureElement.querySelector('.social__caption');
 const commentCountElement = bigPictureElement.querySelector('.social__comment-count');
-
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
 // для закрытия картинки
 const closeButtonElement = document.querySelector('.big-picture__cancel');
@@ -19,10 +19,12 @@ const renderBigPicture = (photo) => {
   descriptionElement.textContent = photo.description;
   likesCountElement.textContent = photo.likes;
   commentsCountElement.textContent = photo.comments.length;
-  addDeleteLoaderElement(photo.comments);
+  // addDeleteLoaderElement(photo.comments);
   removeComments();
-  renderFirstComments(photo.comments); // когда в comments меньше 5 элементов - не работает :(
-  loadMoreComments(photo.comments); //загружает только кратное 5 числодополнительных комментариев
+  renderComments(photo.comments, true);
+  commentsLoaderElement.addEventListener('click', () => {
+    renderComments(photo.comments);
+  });
 };
 
 // закрывает большую картинку
