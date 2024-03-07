@@ -7,8 +7,7 @@ const imgElement = bigPictureElement.querySelector('img');
 const likesCountElement = bigPictureElement.querySelector('.likes-count');
 const commentsCountElement = bigPictureElement.querySelector('.comments-count');
 const descriptionElement = bigPictureElement.querySelector('.social__caption');
-const commentCountElement = bigPictureElement.querySelector('.social__comment-count');
-const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
+
 
 // для закрытия картинки
 const closeButtonElement = document.querySelector('.big-picture__cancel');
@@ -20,7 +19,7 @@ const renderBigPicture = (photo) => {
   likesCountElement.textContent = photo.likes;
   commentsCountElement.textContent = photo.comments.length;
   removeComments();
-  renderComments(photo.comments);
+  renderComments(photo.comments, true);
 };
 
 // закрывает большую картинку
@@ -43,8 +42,6 @@ const openBigPicture = (photo) => {
   document.body.classList.add('modal-open');
   renderBigPicture(photo);
   document.addEventListener('keydown', onDocumentKeydown);
-  commentCountElement.classList.add('hidden');
-  commentsLoaderElement.classList.add('hidden');
 };
 
 //закрывает большую картинку кликом на крестик
