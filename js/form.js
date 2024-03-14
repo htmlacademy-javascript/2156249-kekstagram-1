@@ -1,6 +1,10 @@
-import { isEscapeKey } from "./util.js";
+import { isEscapeKey } from './util.js';
 
-const bodyElement = document.querySelector(`body`);
+const MAX_TAG_COUNT = 5;
+const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
+const TAG_ERROR_TEXT = 'Хештеги заполнены неверно';
+
+const bodyElement = document.querySelector('body');
 const uploadFormElement = document.querySelector('.img-upload__form');
 const uploadInputElement = document.querySelector('#upload-file');
 const editModalElement = document.querySelector('.img-upload__overlay');
@@ -8,8 +12,34 @@ const hashtagInputElement = document.querySelector('.text__hashtags');
 const textareaElement = document.querySelector('.text__description');
 const closeButtonElement = document.querySelector('.img-upload__cancel');
 
+const pristine = new Pristine(uploadFormElement, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+});
+
+const isValidTag = (tag) => VALID_SYMBOLS.test(tag);
+
+const hasValidCount = (tags) => tags.length <= MAX_TAG_COUNT;
+
+const hasUniqueTags = (tags) => {
+  const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
+  return lowerCaseTags.length === new Set(lowerCaseTags).size;
+};
+
+const validateTags = (value) => {
+  const tags = value.trim().split(' ').filter((tag) => tag.trim().length);
+  return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
+};
+
+pristine.addValidator(
+  hashtagInputElement,
+  validateTags,
+  TAG_ERROR_TEXT,
+);
+
 const hideModal = () => {
   uploadFormElement.reset();
+  pristine.reset();
   editModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -24,7 +54,7 @@ function onDocumentKeydown(evt) {
     evt.preventDefault();
     hideModal();
   }
-};
+}
 
 const showModal = () => {
   editModalElement.classList.remove('hidden');
@@ -35,11 +65,9 @@ const showModal = () => {
 uploadInputElement.addEventListener('change', () => {
   showModal();
 });
-
 closeButtonElement.addEventListener('click', () => {
   hideModal();
 });
-
-
-
-
+uploadFormElement.addEventListener('submit', (evt) => {
+  pristine.validate();
+});
