@@ -1,6 +1,7 @@
 import {createPhotos} from './data.js';
 import {renderPhotos} from './render-photos.js';
 import { setGalleryListener } from './gallery.js';
+import './form.js';
 
 const userPhotos = createPhotos();
 
