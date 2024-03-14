@@ -69,5 +69,7 @@ closeButtonElement.addEventListener('click', () => {
   hideModal();
 });
 uploadFormElement.addEventListener('submit', (evt) => {
-  pristine.validate();
+  if(!pristine.validate()) {
+    evt.preventDefault();
+  }
 });
