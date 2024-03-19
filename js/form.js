@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { resetScale } from './scale.js';
 
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -40,6 +41,7 @@ pristine.addValidator(
 const hideModal = () => {
   uploadFormElement.reset();
   pristine.reset();
+  resetScale();
   editModalElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
