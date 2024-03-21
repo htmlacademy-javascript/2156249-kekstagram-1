@@ -8,8 +8,6 @@ const smallerButtonElement = document.querySelector('.scale__control--smaller');
 const biggerButtonElement = document.querySelector('.scale__control--bigger');
 const imageElement = document.querySelector('.img-upload__preview img');
 
-console.log(scaleInputElement.value);
-
 const scaleImage = (value) => {
   imageElement.style.transform = `scale(${value / 100})`;
   scaleInputElement.value = `${value}%`;
@@ -39,7 +37,7 @@ const onBiggerButtonClick = () => {
 
 const resetScale = () => scaleImage(DEFAULT_SCALE);
 
-smallerButtonElement.addEventListener('click', onSmallerButtonClick)
-biggerButtonElement.addEventListener('click', onBiggerButtonClick)
+smallerButtonElement.addEventListener('click', onSmallerButtonClick);
+biggerButtonElement.addEventListener('click', onBiggerButtonClick);
 
 export { resetScale };
