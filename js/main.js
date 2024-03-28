@@ -1,12 +1,26 @@
-import {createPhotos} from './data.js';
-import {renderPhotos} from './render-photos.js';
 import { setGalleryListener } from './gallery.js';
-import './form.js';
+import { setOnFormSubmit, hideModal } from './form.js';
 import './scale.js';
 import './effects.js';
+import { showAlert } from './util.js';
+import { getData, sendData } from './api.js';
 
-const userPhotos = createPhotos();
+setOnFormSubmit(async (data) => {
+  try {
+    await sendData(data);
+    hideModal();
+     // showSuccessMessage();
+  } catch {
+    // showErrorMessage();
+    console.log('error');
+  }
+});
 
-renderPhotos(userPhotos);
+try {
+  const data = await getData();
+  setGalleryListener(data);
+} catch (err) {
+  showAlert(err.message);
+};
 
-setGalleryListener(userPhotos);
+
