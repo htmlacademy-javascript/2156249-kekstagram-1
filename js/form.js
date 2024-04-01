@@ -58,8 +58,10 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagInputElement ||
   document.activeElement === textareaElement;
 
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+
 function onDocumentKeydown(evt) {
-  if (isEscapeKey && !isTextFieldFocused()) {
+  if (isEscapeKey && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
     hideModal();
   }
