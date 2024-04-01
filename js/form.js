@@ -5,6 +5,10 @@ import { resetEffects } from './effects.js';
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const TAG_ERROR_TEXT = 'Хештеги заполнены неверно';
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
 const bodyElement = document.querySelector('body');
 const uploadFormElement = document.querySelector('.img-upload__form');
@@ -13,6 +17,7 @@ const editModalElement = document.querySelector('.img-upload__overlay');
 const hashtagInputElement = document.querySelector('.text__hashtags');
 const textareaElement = document.querySelector('.text__description');
 const closeButtonElement = document.querySelector('.img-upload__cancel');
+const submitButtonElement = document.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper',
@@ -53,8 +58,10 @@ const isTextFieldFocused = () =>
   document.activeElement === hashtagInputElement ||
   document.activeElement === textareaElement;
 
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+
 function onDocumentKeydown(evt) {
-  if (isEscapeKey && !isTextFieldFocused()) {
+  if (isEscapeKey && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
     hideModal();
   }
@@ -66,14 +73,35 @@ const showModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+const blockSubmitButton = () => {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = SubmitButtonText.IDLE;
+};
+
 uploadInputElement.addEventListener('change', () => {
   showModal();
 });
 closeButtonElement.addEventListener('click', () => {
   hideModal();
 });
-uploadFormElement.addEventListener('submit', (evt) => {
-  if(!pristine.validate()) {
+
+const setOnFormSubmit = (callback) => {
+  uploadFormElement.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+
+    if(isValid) {
+      blockSubmitButton();
+      await callback(new FormData(uploadFormElement));
+      unblockSubmitButton();
+    }
+  });
+};
+
+export { setOnFormSubmit, hideModal };
+
