@@ -14,7 +14,9 @@ const createPhotoElement = (photo) => {
   return photoElement;
 };
 
-const renderPhotos = (photos) => {
+const renderPhotos = (photos, container) => {
+  container.querySelectorAll('.picture').forEach((element) => element.remove());
+
   const fragment = document.createDocumentFragment();
 
   photos.forEach((photo) => {
@@ -25,6 +27,6 @@ const renderPhotos = (photos) => {
   containerElement.appendChild(fragment);
 };
 
-export {renderPhotos};
+export { renderPhotos };
 
 
