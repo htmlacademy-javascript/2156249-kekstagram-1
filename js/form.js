@@ -2,6 +2,7 @@ import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
 import { resetEffects } from './effects.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const MAX_TAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const TAG_ERROR_TEXT = 'Хештеги заполнены неверно';
@@ -18,6 +19,8 @@ const hashtagInputElement = document.querySelector('.text__hashtags');
 const textareaElement = document.querySelector('.text__description');
 const closeButtonElement = document.querySelector('.img-upload__cancel');
 const submitButtonElement = document.querySelector('.img-upload__submit');
+const photoPreviewElement = uploadFormElement.querySelector('.img-upload__preview img');
+const effectsPreviewElements = uploadFormElement.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper',
@@ -83,6 +86,26 @@ const unblockSubmitButton = () => {
   submitButtonElement.textContent = SubmitButtonText.IDLE;
 };
 
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
+const onFileInputChange = () => {
+  const file = uploadInputElement.files[0];
+  if (file && isValidType(file)) {
+    photoPreviewElement.src = URL.createObjectURL(file);
+    effectsPreviewElements.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreviewElement.src}')`;
+    });
+  }
+  showModal();
+};
+
+uploadInputElement.addEventListener('change', () => {
+  onFileInputChange();
+});
+
 uploadInputElement.addEventListener('change', () => {
   showModal();
 });
@@ -95,7 +118,7 @@ const setOnFormSubmit = (callback) => {
     evt.preventDefault();
     const isValid = pristine.validate();
 
-    if(isValid) {
+    if (isValid) {
       blockSubmitButton();
       await callback(new FormData(uploadFormElement));
       unblockSubmitButton();
