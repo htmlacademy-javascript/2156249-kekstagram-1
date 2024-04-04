@@ -13,7 +13,7 @@ const SubmitButtonText = {
 
 const bodyElement = document.querySelector('body');
 const uploadFormElement = document.querySelector('.img-upload__form');
-const uploadInputElement = document.querySelector('#upload-file');
+const uploadInputElement = document.querySelector('.img-upload__input');
 const editModalElement = document.querySelector('.img-upload__overlay');
 const hashtagInputElement = document.querySelector('.text__hashtags');
 const textareaElement = document.querySelector('.text__description');
@@ -104,10 +104,6 @@ const onFileInputChange = () => {
 
 uploadInputElement.addEventListener('change', () => {
   onFileInputChange();
-});
-
-uploadInputElement.addEventListener('change', () => {
-  showModal();
 });
 closeButtonElement.addEventListener('click', () => {
   hideModal();
