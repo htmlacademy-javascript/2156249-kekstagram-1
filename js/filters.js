@@ -6,6 +6,7 @@ const Filter = {
 };
 
 const filterElement = document.querySelector('.img-filters');
+
 let currentFilter = Filter.DEFAULT;
 let pictures = [];
 

@@ -10,7 +10,6 @@ const commentTemplate = document.querySelector('#comment').content.querySelector
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentCountElement = bigPictureElement.querySelector('.social__comment-count');
 
-// добавление и удаление кнопки "загрузить еще"
 const checkCommentsCount = () => {
   if (photoComments.length <= shownCommentCount) {
     commentsLoaderElement.classList.add('hidden');
@@ -19,7 +18,6 @@ const checkCommentsCount = () => {
   }
 };
 
-// создание одного комментария
 const getCommentElement = (comment) => {
   const commentElement = commentTemplate.cloneNode(true);
   const socialPictureElement = commentElement.querySelector('.social__picture');
@@ -31,7 +29,6 @@ const getCommentElement = (comment) => {
   return commentElement;
 };
 
-// рендер всех комментариев
 const renderComments = (comments, isFirstRender) => {
   if (isFirstRender) {
     shownCommentCount = 0;
@@ -49,7 +46,6 @@ const renderComments = (comments, isFirstRender) => {
 
   commentsContainerElement.append(fragment);
 
-
   shownCommentCount = count;
   commentCountElement.innerHTML = `${shownCommentCount} из <span class="comments-count">${photoComments.length}</span> комментариев`;
   checkCommentsCount();
@@ -59,7 +55,6 @@ commentsLoaderElement.addEventListener('click', () => {
   renderComments(photoComments);
 });
 
-// очистка контейнера с комментарими
 const removeComments = () => {
   commentsContainerElement.innerHTML = '';
 };
