@@ -64,7 +64,7 @@ const isTextFieldFocused = () =>
 const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey && !isTextFieldFocused() && !isErrorMessageShown()) {
+  if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageShown()) {
     evt.preventDefault();
     hideModal();
   }

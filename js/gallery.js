@@ -1,7 +1,7 @@
 import { openBigPicture } from './big-picture.js';
 import { renderPhotos } from './render-photos.js';
 
-const picturesContainer = document.querySelector('.pictures');
+const picturesContainerElement = document.querySelector('.pictures');
 
 let pictures = [];
 const onContainerClick = (evt) => {
@@ -17,8 +17,8 @@ const onContainerClick = (evt) => {
 
 const renderGallery = (currentPictures) => {
   pictures = currentPictures;
-  renderPhotos(pictures, picturesContainer);
-  picturesContainer.addEventListener('click', onContainerClick);
+  renderPhotos(pictures, picturesContainerElement);
+  picturesContainerElement.addEventListener('click', onContainerClick);
 };
 
 export { renderGallery };

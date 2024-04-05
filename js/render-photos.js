@@ -1,4 +1,4 @@
-const containerElement = document.querySelector('.pictures');
+
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const createPhotoElement = (photo) => {
@@ -14,8 +14,8 @@ const createPhotoElement = (photo) => {
   return photoElement;
 };
 
-const renderPhotos = (photos, container) => {
-  container.querySelectorAll('.picture').forEach((element) => element.remove());
+const renderPhotos = (photos, containerElement) => {
+  containerElement.querySelectorAll('.picture').forEach((element) => element.remove());
 
   const fragment = document.createDocumentFragment();
 
