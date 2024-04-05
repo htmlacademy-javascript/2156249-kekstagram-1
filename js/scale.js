@@ -1,6 +1,6 @@
 const Scale = {
   STEP: 25,
-  MIM: 25,
+  MIN: 25,
   MAX: 100,
   DEFAULT: 100
 };

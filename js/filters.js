@@ -6,6 +6,7 @@ const Filter = {
 };
 
 const filterElement = document.querySelector('.img-filters');
+const activeFilterClass = 'img-filters__button--active';
 
 let currentFilter = Filter.DEFAULT;
 let pictures = [];
@@ -38,9 +39,9 @@ const setOnFilterClick = (callback) => {
     }
 
     filterElement
-      .querySelector('.img-filters__button--active')
-      .classList.remove('img-filters__button--active');
-    clickedButton.classList.add('img-filters__button--active');
+      .querySelector(`.${activeFilterClass}`)
+      .classList.remove(activeFilterClass);
+    clickedButton.classList.add(activeFilterClass);
     currentFilter = clickedButton.id;
     callback(getFilteredPictures());
   });
